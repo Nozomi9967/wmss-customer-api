@@ -1,0 +1,32 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.9.2
+
+package customer
+
+import (
+	"net/http"
+
+	"WMSS/customer/api/internal/logic/customer"
+	"WMSS/customer/api/internal/svc"
+	"WMSS/customer/api/internal/types"
+	"github.com/zeromicro/go-zero/rest/httpx"
+)
+
+// 更新风险测评
+func UpdateRiskEvaluationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var req types.UpdateRiskEvaluationReq
+		if err := httpx.Parse(r, &req); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
+		l := customer.NewUpdateRiskEvaluationLogic(r.Context(), svcCtx)
+		resp, err := l.UpdateRiskEvaluation(&req)
+		if err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+		} else {
+			httpx.OkJsonCtx(r.Context(), w, resp)
+		}
+	}
+}
