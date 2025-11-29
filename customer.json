@@ -1,0 +1,1299 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "客户管理微服务",
+    "description": "理财销售系统 - 客户信息、银行卡、行为分析管理",
+    "version": "v1.0"
+  },
+  "host": "localhost:8890",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/bank-card/balance": {
+      "put": {
+        "summary": "更新银行卡余额",
+        "operationId": "UpdateCardBalance",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCardBalanceReq"
+            }
+          }
+        ],
+        "tags": [
+          "bankcard"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/bank-card/bind": {
+      "post": {
+        "summary": "绑定银行卡",
+        "operationId": "BindBankCard",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BindBankCardReq"
+            }
+          }
+        ],
+        "tags": [
+          "bankcard"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/bank-card/info/{cardId}": {
+      "get": {
+        "summary": "查询银行卡详情",
+        "operationId": "GetBankCard",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "bankcard"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/bank-card/list": {
+      "get": {
+        "summary": "查询客户银行卡列表",
+        "operationId": "ListBankCard",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "bindStatus",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "isVirtual",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "bankcard"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/bank-card/unbind": {
+      "post": {
+        "summary": "解绑银行卡",
+        "operationId": "UnbindBankCard",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UnbindBankCardReq"
+            }
+          }
+        ],
+        "tags": [
+          "bankcard"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/behavior/list": {
+      "get": {
+        "summary": "查询客户行为列表",
+        "operationId": "ListBehavior",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "behaviorType",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "relatedProductId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startTime",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endTime",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "default": "1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "default": "20"
+          }
+        ],
+        "tags": [
+          "behavior"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/behavior/record": {
+      "post": {
+        "summary": "记录客户行为",
+        "operationId": "RecordBehavior",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RecordBehaviorReq"
+            }
+          }
+        ],
+        "tags": [
+          "behavior"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/behavior/statistics": {
+      "get": {
+        "summary": "客户行为统计",
+        "operationId": "BehaviorStatistics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "startTime",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endTime",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "behavior"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/customer/info": {
+      "post": {
+        "summary": "创建客户",
+        "operationId": "CreateCustomer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateCustomerReq"
+            }
+          }
+        ],
+        "tags": [
+          "customer"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      },
+      "put": {
+        "summary": "更新客户信息",
+        "operationId": "UpdateCustomer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCustomerReq"
+            }
+          }
+        ],
+        "tags": [
+          "customer"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/customer/info/{customerId}": {
+      "get": {
+        "summary": "查询客户详情",
+        "operationId": "GetCustomer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "customer"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "逻辑删除客户信息",
+        "operationId": "DeleteCustomer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteCustomerReq"
+            }
+          }
+        ],
+        "tags": [
+          "customer"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/customer/list": {
+      "get": {
+        "summary": "查询客户列表",
+        "operationId": "ListCustomer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "default": "1"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "default": "10"
+          },
+          {
+            "name": "customerName",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "customerType",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "riskLevel",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "idNumber",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "customer"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/customer/risk-evaluation": {
+      "put": {
+        "summary": "更新风险测评",
+        "operationId": "UpdateRiskEvaluation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateRiskEvaluationReq"
+            }
+          }
+        ],
+        "tags": [
+          "customer"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "BankCardInfo": {
+      "type": "object",
+      "properties": {
+        "cardId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "bankCardNumber": {
+          "type": "string"
+        },
+        "bankName": {
+          "type": "string"
+        },
+        "cardBalance": {
+          "type": "string"
+        },
+        "isVirtual": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bindStatus": {
+          "type": "string"
+        },
+        "bindTime": {
+          "type": "string"
+        },
+        "unbindTime": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        }
+      },
+      "title": "BankCardInfo",
+      "required": [
+        "cardId",
+        "customerId",
+        "bankCardNumber",
+        "bankName",
+        "cardBalance",
+        "isVirtual",
+        "bindStatus",
+        "bindTime",
+        "createTime",
+        "updateTime"
+      ]
+    },
+    "BehaviorStatisticsReq": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        }
+      },
+      "title": "BehaviorStatisticsReq",
+      "required": [
+        "customerId"
+      ]
+    },
+    "BehaviorStatisticsResp": {
+      "type": "object",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "typeStatistics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BehaviorTypeCount"
+          }
+        }
+      },
+      "title": "BehaviorStatisticsResp",
+      "required": [
+        "totalCount",
+        "typeStatistics"
+      ]
+    },
+    "BehaviorTypeCount": {
+      "type": "object",
+      "properties": {
+        "behaviorType": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "BehaviorTypeCount",
+      "required": [
+        "behaviorType",
+        "count"
+      ]
+    },
+    "BindBankCardReq": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "bankCardNumber": {
+          "type": "string"
+        },
+        "bankName": {
+          "type": "string"
+        },
+        "isVirtual": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cardBalance": {
+          "type": "string"
+        }
+      },
+      "title": "BindBankCardReq",
+      "required": [
+        "customerId",
+        "bankCardNumber",
+        "bankName",
+        "isVirtual"
+      ]
+    },
+    "BindBankCardResp": {
+      "type": "object",
+      "properties": {
+        "cardId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "BindBankCardResp",
+      "required": [
+        "cardId"
+      ]
+    },
+    "CreateCustomerReq": {
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string"
+        },
+        "customerType": {
+          "type": "string"
+        },
+        "idType": {
+          "type": "string"
+        },
+        "idNumber": {
+          "type": "string"
+        },
+        "riskLevel": {
+          "type": "string"
+        },
+        "riskEvaluationTime": {
+          "type": "string"
+        },
+        "riskEvaluationExpireTime": {
+          "type": "string"
+        },
+        "contactPhone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "CreateCustomerReq",
+      "required": [
+        "customerName",
+        "customerType",
+        "idType",
+        "idNumber",
+        "riskLevel",
+        "riskEvaluationTime",
+        "riskEvaluationExpireTime"
+      ]
+    },
+    "CreateCustomerResp": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        }
+      },
+      "title": "CreateCustomerResp",
+      "required": [
+        "customerId"
+      ]
+    },
+    "CustomerBehavior": {
+      "type": "object",
+      "properties": {
+        "behaviorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "behaviorType": {
+          "type": "string"
+        },
+        "behaviorTime": {
+          "type": "string"
+        },
+        "relatedProductId": {
+          "type": "string"
+        },
+        "behaviorDetail": {
+          "type": "string"
+        },
+        "ipAddress": {
+          "type": "string"
+        },
+        "deviceInfo": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        }
+      },
+      "title": "CustomerBehavior",
+      "required": [
+        "behaviorId",
+        "customerId",
+        "behaviorType",
+        "behaviorTime",
+        "createTime"
+      ]
+    },
+    "CustomerInfo": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string"
+        },
+        "customerType": {
+          "type": "string"
+        },
+        "idType": {
+          "type": "string"
+        },
+        "idNumber": {
+          "type": "string"
+        },
+        "riskLevel": {
+          "type": "string"
+        },
+        "riskEvaluationTime": {
+          "type": "string"
+        },
+        "riskEvaluationExpireTime": {
+          "type": "string"
+        },
+        "contactPhone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        }
+      },
+      "title": "CustomerInfo",
+      "required": [
+        "customerId",
+        "customerName",
+        "customerType",
+        "idType",
+        "idNumber",
+        "riskLevel",
+        "riskEvaluationTime",
+        "riskEvaluationExpireTime",
+        "createTime",
+        "updateTime"
+      ]
+    },
+    "DeleteCustomerReq": {
+      "type": "object",
+      "title": "DeleteCustomerReq"
+    },
+    "DeleteCustomerResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "DeleteCustomerResp",
+      "required": [
+        "success"
+      ]
+    },
+    "GetBankCardReq": {
+      "type": "object",
+      "title": "GetBankCardReq"
+    },
+    "GetBankCardResp": {
+      "type": "object",
+      "properties": {
+        "bankCard": {
+          "$ref": "#/definitions/BankCardInfo"
+        }
+      },
+      "title": "GetBankCardResp",
+      "required": [
+        "bankCard"
+      ]
+    },
+    "GetCustomerReq": {
+      "type": "object",
+      "title": "GetCustomerReq"
+    },
+    "GetCustomerResp": {
+      "type": "object",
+      "properties": {
+        "customer": {
+          "$ref": "#/definitions/CustomerInfo"
+        }
+      },
+      "title": "GetCustomerResp",
+      "required": [
+        "customer"
+      ]
+    },
+    "ListBankCardReq": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "bindStatus": {
+          "type": "string"
+        },
+        "isVirtual": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ListBankCardReq",
+      "required": [
+        "customerId"
+      ]
+    },
+    "ListBankCardResp": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BankCardInfo"
+          }
+        }
+      },
+      "title": "ListBankCardResp",
+      "required": [
+        "total",
+        "list"
+      ]
+    },
+    "ListBehaviorReq": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "behaviorType": {
+          "type": "string"
+        },
+        "relatedProductId": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "default": "20"
+        }
+      },
+      "title": "ListBehaviorReq",
+      "required": [
+        "customerId",
+        "page",
+        "pageSize"
+      ]
+    },
+    "ListBehaviorResp": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomerBehavior"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ListBehaviorResp",
+      "required": [
+        "total",
+        "list",
+        "page",
+        "pageSize"
+      ]
+    },
+    "ListCustomerReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "default": "10"
+        },
+        "customerName": {
+          "type": "string"
+        },
+        "customerType": {
+          "type": "string"
+        },
+        "riskLevel": {
+          "type": "string"
+        },
+        "idNumber": {
+          "type": "string"
+        }
+      },
+      "title": "ListCustomerReq",
+      "required": [
+        "page",
+        "pageSize"
+      ]
+    },
+    "ListCustomerResp": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomerInfo"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ListCustomerResp",
+      "required": [
+        "total",
+        "list",
+        "page",
+        "pageSize"
+      ]
+    },
+    "RecordBehaviorReq": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "behaviorType": {
+          "type": "string"
+        },
+        "relatedProductId": {
+          "type": "string"
+        },
+        "behaviorDetail": {
+          "type": "string"
+        },
+        "ipAddress": {
+          "type": "string"
+        },
+        "deviceInfo": {
+          "type": "string"
+        }
+      },
+      "title": "RecordBehaviorReq",
+      "required": [
+        "customerId",
+        "behaviorType"
+      ]
+    },
+    "RecordBehaviorResp": {
+      "type": "object",
+      "properties": {
+        "behaviorId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "RecordBehaviorResp",
+      "required": [
+        "behaviorId"
+      ]
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "title": "Response",
+      "required": [
+        "code",
+        "msg",
+        "data"
+      ]
+    },
+    "UnbindBankCardReq": {
+      "type": "object",
+      "properties": {
+        "cardId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UnbindBankCardReq",
+      "required": [
+        "cardId"
+      ]
+    },
+    "UnbindBankCardResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "UnbindBankCardResp",
+      "required": [
+        "success"
+      ]
+    },
+    "UpdateCardBalanceReq": {
+      "type": "object",
+      "properties": {
+        "cardId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "operateType": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateCardBalanceReq",
+      "required": [
+        "cardId",
+        "amount",
+        "operateType"
+      ]
+    },
+    "UpdateCardBalanceResp": {
+      "type": "object",
+      "properties": {
+        "newBalance": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateCardBalanceResp",
+      "required": [
+        "newBalance"
+      ]
+    },
+    "UpdateCustomerReq": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "customerName": {
+          "type": "string"
+        },
+        "riskLevel": {
+          "type": "string"
+        },
+        "riskEvaluationTime": {
+          "type": "string"
+        },
+        "riskEvaluationExpireTime": {
+          "type": "string"
+        },
+        "contactPhone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateCustomerReq",
+      "required": [
+        "customerId"
+      ]
+    },
+    "UpdateCustomerResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "UpdateCustomerResp",
+      "required": [
+        "success"
+      ]
+    },
+    "UpdateRiskEvaluationReq": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "riskLevel": {
+          "type": "string"
+        },
+        "riskEvaluationTime": {
+          "type": "string"
+        },
+        "riskEvaluationExpireTime": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateRiskEvaluationReq",
+      "required": [
+        "customerId",
+        "riskLevel",
+        "riskEvaluationTime",
+        "riskEvaluationExpireTime"
+      ]
+    },
+    "UpdateRiskEvaluationResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "UpdateRiskEvaluationResp",
+      "required": [
+        "success"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

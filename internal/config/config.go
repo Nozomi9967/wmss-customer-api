@@ -1,14 +1,19 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.9.2
-
 package config
 
-import "github.com/zeromicro/go-zero/rest"
+import (
+	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
+)
 
 type Config struct {
-	rest.RestConf
+	Rest rest.RestConf // RestConf 里已经包含了 LogConf
 	Auth struct {
-		AccessSecret string
-		AccessExpire int64
+		AccessSecret string `json:"AccessSecret"`
+		AccessExpire int64  `json:"AccessExpire"`
 	}
+	UserRpc zrpc.RpcClientConf `json:"UserRpc"`
+	Mysql   struct {
+		DataSource string `json:"DataSource"`
+	}
+	// CacheRedis cache.CacheConf `json:"CacheRedis"`
 }

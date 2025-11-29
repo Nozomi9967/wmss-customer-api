@@ -6,8 +6,10 @@ package bankcard
 import (
 	"context"
 
-	"WMSS/customer/api/internal/svc"
-	"WMSS/customer/api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
+	"github.com/Nozomi9967/wmss-customer-api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/model"
+	"github.com/Nozomi9967/wmss-customer-api/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +30,28 @@ func NewGetBankCardLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetBa
 }
 
 func (l *GetBankCardLogic) GetBankCard(req *types.GetBankCardReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	var bankCard *model.CustomerBankCard
+	bankCard, err = l.svcCtx.CustomerBankCardModel.FindOne(l.ctx, req.CardId)
+	if err != nil {
+		l.Logger.Errorf("获取银行卡信息失败: %v", err)
+		return &types.Response{
+			Code: 400,
+			Msg:  "获取银行卡信息失败",
+		}, nil
+	}
 
-	return
+	var bankCardInfo *types.BankCardInfo
+	bankCardInfo, err = utils.BankCardToBankCardInfo(bankCard)
+	if err != nil {
+		l.Logger.Errorf("获取银行卡信息失败: %v", err)
+		return &types.Response{
+			Code: 400,
+			Msg:  "获取银行卡信息失败",
+		}, nil
+	}
+	return &types.Response{
+		Code: 200,
+		Msg:  "获取银行卡信息成功",
+		Data: bankCardInfo,
+	}, nil
 }

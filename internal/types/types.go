@@ -4,161 +4,169 @@
 package types
 
 type BankCardInfo struct {
-	CardId         int64  `json:"cardId"`               // 银行卡ID
-	CustomerId     string `json:"customerId"`           // 客户ID
-	BankCardNumber string `json:"bankCardNumber"`       // 银行卡号(部分脱敏)
-	BankName       string `json:"bankName"`             // 开户行名称
-	CardBalance    string `json:"cardBalance"`          // 银行卡余额
-	IsVirtual      int    `json:"isVirtual"`            // 是否虚拟银行卡: 1-是, 0-否
-	BindStatus     string `json:"bindStatus"`           // 绑定状态
-	BindTime       string `json:"bindTime"`             // 绑定时间
-	UnbindTime     string `json:"unbindTime,omitempty"` // 解绑时间
-	CreateTime     string `json:"createTime"`           // 创建时间
-	UpdateTime     string `json:"updateTime"`           // 更新时间
+	CardId         int64  `json:"cardId"`
+	CustomerId     string `json:"customerId"`
+	BankCardNumber string `json:"bankCardNumber"`
+	BankName       string `json:"bankName"`
+	CardBalance    string `json:"cardBalance"`
+	IsVirtual      int    `json:"isVirtual"`
+	BindStatus     string `json:"bindStatus"`
+	BindTime       string `json:"bindTime"`
+	UnbindTime     string `json:"unbindTime,omitempty"`
+	CreateTime     string `json:"createTime"`
+	UpdateTime     string `json:"updateTime"`
 }
 
 type BehaviorStatisticsReq struct {
-	CustomerId string `form:"customerId" validate:"required"` // 客户ID
-	StartTime  string `form:"startTime,optional"`             // 开始时间
-	EndTime    string `form:"endTime,optional"`               // 结束时间
+	CustomerId string `form:"customerId" validate:"required"`
+	StartTime  string `form:"startTime,optional"`
+	EndTime    string `form:"endTime,optional"`
 }
 
 type BehaviorStatisticsResp struct {
-	TotalCount     int64               `json:"totalCount"`     // 总行为次数
-	TypeStatistics []BehaviorTypeCount `json:"typeStatistics"` // 各类型统计
+	TotalCount     int64               `json:"totalCount"`
+	TypeStatistics []BehaviorTypeCount `json:"typeStatistics"`
 }
 
 type BehaviorTypeCount struct {
-	BehaviorType string `json:"behaviorType"` // 行为类型
-	Count        int64  `json:"count"`        // 次数
+	BehaviorType string `json:"behaviorType"`
+	Count        int64  `json:"count"`
 }
 
 type BindBankCardReq struct {
-	CustomerId     string `json:"customerId" validate:"required"`     // 客户ID
-	BankCardNumber string `json:"bankCardNumber" validate:"required"` // 银行卡号
-	BankName       string `json:"bankName" validate:"required"`       // 开户行名称
-	IsVirtual      int    `json:"isVirtual"`                          // 是否虚拟卡: 1-是, 0-否
-	CardBalance    string `json:"cardBalance,omitempty"`              // 初始余额(虚拟卡需要)
+	CustomerId     string `json:"customerId" validate:"required"`
+	BankCardNumber string `json:"bankCardNumber" validate:"required"`
+	BankName       string `json:"bankName" validate:"required"`
+	IsVirtual      int    `json:"isVirtual"`
+	CardBalance    string `json:"cardBalance,omitempty"`
 }
 
 type BindBankCardResp struct {
-	CardId int64 `json:"cardId"` // 银行卡ID
+	CardId int64 `json:"cardId"`
 }
 
 type CreateCustomerReq struct {
-	CustomerName             string `json:"customerName" validate:"required"`             // 客户姓名/企业名称
-	CustomerType             string `json:"customerType" validate:"required"`             // 客户类型
-	IdType                   string `json:"idType" validate:"required"`                   // 证件类型
-	IdNumber                 string `json:"idNumber" validate:"required"`                 // 证件号码
-	RiskLevel                string `json:"riskLevel" validate:"required"`                // 风险等级
-	RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"`       // 风险测评时间
-	RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"` // 风险测评过期时间
-	ContactPhone             string `json:"contactPhone,omitempty"`                       // 联系电话
-	Email                    string `json:"email,omitempty"`                              // 电子邮箱
+	CustomerName             string `json:"customerName" validate:"required"`
+	CustomerType             string `json:"customerType" validate:"required"`
+	IdType                   string `json:"idType" validate:"required"`
+	IdNumber                 string `json:"idNumber" validate:"required"`
+	RiskLevel                string `json:"riskLevel" validate:"required"`
+	RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"`
+	RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"`
+	ContactPhone             string `json:"contactPhone,omitempty"`
+	Email                    string `json:"email,omitempty"`
 }
 
 type CreateCustomerResp struct {
-	CustomerId string `json:"customerId"` // 客户ID
+	CustomerId string `json:"customerId"`
 }
 
 type CustomerBehavior struct {
-	BehaviorId       int64  `json:"behaviorId"`                 // 行为ID
-	CustomerId       string `json:"customerId"`                 // 客户ID
-	BehaviorType     string `json:"behaviorType"`               // 行为类型
-	BehaviorTime     string `json:"behaviorTime"`               // 行为时间
-	RelatedProductId string `json:"relatedProductId,omitempty"` // 关联产品ID
-	BehaviorDetail   string `json:"behaviorDetail,omitempty"`   // 行为详情(JSON)
-	IpAddress        string `json:"ipAddress,omitempty"`        // IP地址
-	DeviceInfo       string `json:"deviceInfo,omitempty"`       // 设备信息
-	CreateTime       string `json:"createTime"`                 // 创建时间
+	BehaviorId       int64  `json:"behaviorId"`
+	CustomerId       string `json:"customerId"`
+	BehaviorType     string `json:"behaviorType"`
+	BehaviorTime     string `json:"behaviorTime"`
+	RelatedProductId string `json:"relatedProductId,omitempty"`
+	BehaviorDetail   string `json:"behaviorDetail,omitempty"`
+	IpAddress        string `json:"ipAddress,omitempty"`
+	DeviceInfo       string `json:"deviceInfo,omitempty"`
+	CreateTime       string `json:"createTime"`
 }
 
 type CustomerInfo struct {
-	CustomerId               string `json:"customerId"`               // 客户唯一标识
-	CustomerName             string `json:"customerName"`             // 客户姓名/企业名称
-	CustomerType             string `json:"customerType"`             // 客户类型: 个人/企业
-	IdType                   string `json:"idType"`                   // 证件类型
-	IdNumber                 string `json:"idNumber"`                 // 证件号码(已加密)
-	RiskLevel                string `json:"riskLevel"`                // 风险等级: R1-R5
-	RiskEvaluationTime       string `json:"riskEvaluationTime"`       // 风险测评时间
-	RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime"` // 风险测评过期时间
-	ContactPhone             string `json:"contactPhone,omitempty"`   // 联系电话
-	Email                    string `json:"email,omitempty"`          // 电子邮箱
-	CreateTime               string `json:"createTime"`               // 创建时间
-	UpdateTime               string `json:"updateTime"`               // 更新时间
+	CustomerId               string `json:"customerId"`
+	CustomerName             string `json:"customerName"`
+	CustomerType             string `json:"customerType"`
+	IdType                   string `json:"idType"`
+	IdNumber                 string `json:"idNumber"`
+	RiskLevel                string `json:"riskLevel"`
+	RiskEvaluationTime       string `json:"riskEvaluationTime"`
+	RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime"`
+	ContactPhone             string `json:"contactPhone,omitempty"`
+	Email                    string `json:"email,omitempty"`
+	CreateTime               string `json:"createTime"`
+	UpdateTime               string `json:"updateTime"`
+}
+
+type DeleteCustomerReq struct {
+	CustomerId string `path:"customerId" validate:"required"`
+}
+
+type DeleteCustomerResp struct {
+	Success bool `json:"success"`
 }
 
 type GetBankCardReq struct {
-	CardId int64 `path:"cardId"` // 银行卡ID
+	CardId int64 `path:"cardId"`
 }
 
 type GetBankCardResp struct {
-	BankCard BankCardInfo `json:"bankCard"` // 银行卡信息
+	BankCard BankCardInfo `json:"bankCard"`
 }
 
 type GetCustomerReq struct {
-	CustomerId string `path:"customerId"` // 客户ID
+	CustomerId string `path:"customerId"`
 }
 
 type GetCustomerResp struct {
-	Customer CustomerInfo `json:"customer"` // 客户信息
+	Customer CustomerInfo `json:"customer"`
 }
 
 type ListBankCardReq struct {
-	CustomerId string `form:"customerId" validate:"required"` // 客户ID
-	BindStatus string `form:"bindStatus,optional"`            // 绑定状态
-	IsVirtual  int    `form:"isVirtual,optional"`             // 是否虚拟卡: -1-全部, 0-真实卡, 1-虚拟卡
+	CustomerId string `form:"customerId" validate:"required"`
+	BindStatus string `form:"bindStatus,optional"`
+	IsVirtual  int    `form:"isVirtual,optional"`
 }
 
 type ListBankCardResp struct {
-	Total int64          `json:"total"` // 总数
-	List  []BankCardInfo `json:"list"`  // 银行卡列表
+	Total int64          `json:"total"`
+	List  []BankCardInfo `json:"list"`
 }
 
 type ListBehaviorReq struct {
-	CustomerId       string `form:"customerId" validate:"required"` // 客户ID
-	BehaviorType     string `form:"behaviorType,optional"`          // 行为类型
-	RelatedProductId string `form:"relatedProductId,optional"`      // 关联产品ID
-	StartTime        string `form:"startTime,optional"`             // 开始时间
-	EndTime          string `form:"endTime,optional"`               // 结束时间
-	Page             int    `form:"page,default=1"`                 // 页码
-	PageSize         int    `form:"pageSize,default=20"`            // 每页数量
+	CustomerId       string `form:"customerId" validate:"required"`
+	BehaviorType     string `form:"behaviorType,optional"`
+	RelatedProductId string `form:"relatedProductId,optional"`
+	StartTime        string `form:"startTime,optional"`
+	EndTime          string `form:"endTime,optional"`
+	Page             int    `form:"page,default=1"`
+	PageSize         int    `form:"pageSize,default=20"`
 }
 
 type ListBehaviorResp struct {
-	Total    int64              `json:"total"`    // 总数
-	List     []CustomerBehavior `json:"list"`     // 行为列表
-	Page     int                `json:"page"`     // 当前页
-	PageSize int                `json:"pageSize"` // 每页数量
+	Total    int64              `json:"total"`
+	List     []CustomerBehavior `json:"list"`
+	Page     int                `json:"page"`
+	PageSize int                `json:"pageSize"`
 }
 
 type ListCustomerReq struct {
-	Page         int    `form:"page,default=1"`        // 页码
-	PageSize     int    `form:"pageSize,default=10"`   // 每页数量
-	CustomerName string `form:"customerName,optional"` // 客户名称(模糊查询)
-	CustomerType string `form:"customerType,optional"` // 客户类型
-	RiskLevel    string `form:"riskLevel,optional"`    // 风险等级
-	IdNumber     string `form:"idNumber,optional"`     // 证件号码(精确查询)
+	Page         int    `form:"page,default=1"`
+	PageSize     int    `form:"pageSize,default=10"`
+	CustomerName string `form:"customerName,optional"`
+	CustomerType string `form:"customerType,optional"`
+	RiskLevel    string `form:"riskLevel,optional"`
+	IdNumber     string `form:"idNumber,optional"`
 }
 
 type ListCustomerResp struct {
-	Total    int64          `json:"total"`    // 总数
-	List     []CustomerInfo `json:"list"`     // 客户列表
-	Page     int            `json:"page"`     // 当前页
-	PageSize int            `json:"pageSize"` // 每页数量
+	Total    int64          `json:"total"`
+	List     []CustomerInfo `json:"list"`
+	Page     int            `json:"page"`
+	PageSize int            `json:"pageSize"`
 }
 
 type RecordBehaviorReq struct {
-	CustomerId       string `json:"customerId" validate:"required"`   // 客户ID
-	BehaviorType     string `json:"behaviorType" validate:"required"` // 行为类型
-	RelatedProductId string `json:"relatedProductId,omitempty"`       // 关联产品ID
-	BehaviorDetail   string `json:"behaviorDetail,omitempty"`         // 行为详情(JSON字符串)
-	IpAddress        string `json:"ipAddress,omitempty"`              // IP地址
-	DeviceInfo       string `json:"deviceInfo,omitempty"`             // 设备信息
+	CustomerId       string `json:"customerId" validate:"required"`
+	BehaviorType     string `json:"behaviorType" validate:"required"`
+	RelatedProductId string `json:"relatedProductId,omitempty"`
+	BehaviorDetail   string `json:"behaviorDetail,omitempty"`
+	IpAddress        string `json:"ipAddress,omitempty"`
+	DeviceInfo       string `json:"deviceInfo,omitempty"`
 }
 
 type RecordBehaviorResp struct {
-	BehaviorId int64 `json:"behaviorId"` // 行为ID
+	BehaviorId int64 `json:"behaviorId"`
 }
 
 type Response struct {
@@ -168,45 +176,45 @@ type Response struct {
 }
 
 type UnbindBankCardReq struct {
-	CardId int64 `json:"cardId" validate:"required"` // 银行卡ID
+	CardId int64 `json:"cardId" validate:"required"`
 }
 
 type UnbindBankCardResp struct {
-	Success bool `json:"success"` // 是否成功
+	Success bool `json:"success"`
 }
 
 type UpdateCardBalanceReq struct {
-	CardId      int64  `json:"cardId" validate:"required"`      // 银行卡ID
-	Amount      string `json:"amount" validate:"required"`      // 变动金额(正数为增加,负数为减少)
-	OperateType string `json:"operateType" validate:"required"` // 操作类型: recharge-充值, consume-消费
-	Remark      string `json:"remark,omitempty"`                // 备注
+	CardId      int64  `json:"cardId" validate:"required"`
+	Amount      string `json:"amount" validate:"required"`
+	OperateType string `json:"operateType" validate:"required"`
+	Remark      string `json:"remark,omitempty"`
 }
 
 type UpdateCardBalanceResp struct {
-	NewBalance string `json:"newBalance"` // 更新后余额
+	NewBalance string `json:"newBalance"`
 }
 
 type UpdateCustomerReq struct {
-	CustomerId               string `json:"customerId" validate:"required"`     // 客户ID
-	CustomerName             string `json:"customerName,omitempty"`             // 客户姓名/企业名称
-	RiskLevel                string `json:"riskLevel,omitempty"`                // 风险等级
-	RiskEvaluationTime       string `json:"riskEvaluationTime,omitempty"`       // 风险测评时间
-	RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime,omitempty"` // 风险测评过期时间
-	ContactPhone             string `json:"contactPhone,omitempty"`             // 联系电话
-	Email                    string `json:"email,omitempty"`                    // 电子邮箱
+	CustomerId               string `json:"customerId" validate:"required"`
+	CustomerName             string `json:"customerName,omitempty"`
+	RiskLevel                string `json:"riskLevel,omitempty"`
+	RiskEvaluationTime       string `json:"riskEvaluationTime,omitempty"`
+	RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime,omitempty"`
+	ContactPhone             string `json:"contactPhone,omitempty"`
+	Email                    string `json:"email,omitempty"`
 }
 
 type UpdateCustomerResp struct {
-	Success bool `json:"success"` // 是否成功
+	Success bool `json:"success"`
 }
 
 type UpdateRiskEvaluationReq struct {
-	CustomerId               string `json:"customerId" validate:"required"`               // 客户ID
-	RiskLevel                string `json:"riskLevel" validate:"required"`                // 风险等级
-	RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"`       // 风险测评时间
-	RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"` // 风险测评过期时间
+	CustomerId               string `json:"customerId" validate:"required"`
+	RiskLevel                string `json:"riskLevel" validate:"required"`
+	RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"`
+	RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"`
 }
 
 type UpdateRiskEvaluationResp struct {
-	Success bool `json:"success"` // 是否成功
+	Success bool `json:"success"`
 }

@@ -1,3 +1,23 @@
-Name: customer
-Host: 0.0.0.0
-Port: 8888
+Rest:
+  Name: customer
+  Host: 127.0.0.1
+  Port: 8890
+  # 日志配置放在 Rest 里面
+  Log:
+    Mode: console
+    Level: info
+    Encoding: plain
+
+UserRpc:
+  Endpoints:
+    - 127.0.0.1:9090  # 对应 user.rpc 的监听地址（必须一致）
+  Timeout: 3000     # 调用 RPC 的超时时间（建议和 API 超时一致）
+
+Auth:
+  AccessSecret: wmss1234
+  AccessExpire: 8640000000  # 24小时
+
+# MySQL 数据库配置
+Mysql:
+  DataSource: root:darling1224@tcp(127.0.0.1:3306)/wmss?charset=utf8mb4&parseTime=true&loc=Local
+

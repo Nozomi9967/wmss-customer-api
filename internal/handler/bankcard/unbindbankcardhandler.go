@@ -6,9 +6,9 @@ package bankcard
 import (
 	"net/http"
 
-	"WMSS/customer/api/internal/logic/bankcard"
-	"WMSS/customer/api/internal/svc"
-	"WMSS/customer/api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/internal/logic/bankcard"
+	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
+	"github.com/Nozomi9967/wmss-customer-api/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

@@ -14,214 +14,205 @@ type Response {
 	Data interface{} `json:"data"`
 }
 
-// ==================== 客户信息管理 ====================
+// ==================== 1. 客户信息管理 Types ====================
 type (
-	// 客户信息
 	CustomerInfo {
-		CustomerId               string `json:"customerId"` // 客户唯一标识
-		CustomerName             string `json:"customerName"` // 客户姓名/企业名称
-		CustomerType             string `json:"customerType"` // 客户类型: 个人/企业
-		IdType                   string `json:"idType"` // 证件类型
-		IdNumber                 string `json:"idNumber"` // 证件号码(已加密)
-		RiskLevel                string `json:"riskLevel"` // 风险等级: R1-R5
-		RiskEvaluationTime       string `json:"riskEvaluationTime"` // 风险测评时间
-		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime"` // 风险测评过期时间
-		ContactPhone             string `json:"contactPhone,omitempty"` // 联系电话
-		Email                    string `json:"email,omitempty"` // 电子邮箱
-		CreateTime               string `json:"createTime"` // 创建时间
-		UpdateTime               string `json:"updateTime"` // 更新时间
+		CustomerId               string `json:"customerId"`
+		CustomerName             string `json:"customerName"`
+		CustomerType             string `json:"customerType"`
+		IdType                   string `json:"idType"`
+		IdNumber                 string `json:"idNumber"`
+		RiskLevel                string `json:"riskLevel"`
+		RiskEvaluationTime       string `json:"riskEvaluationTime"`
+		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime"`
+		ContactPhone             string `json:"contactPhone,omitempty"`
+		Email                    string `json:"email,omitempty"`
+		CreateTime               string `json:"createTime"`
+		UpdateTime               string `json:"updateTime"`
 	}
-	// 创建客户请求
 	CreateCustomerReq {
-		CustomerName             string `json:"customerName" validate:"required"` // 客户姓名/企业名称
-		CustomerType             string `json:"customerType" validate:"required"` // 客户类型
-		IdType                   string `json:"idType" validate:"required"` // 证件类型
-		IdNumber                 string `json:"idNumber" validate:"required"` // 证件号码
-		RiskLevel                string `json:"riskLevel" validate:"required"` // 风险等级
-		RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"` // 风险测评时间
-		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"` // 风险测评过期时间
-		ContactPhone             string `json:"contactPhone,omitempty"` // 联系电话
-		Email                    string `json:"email,omitempty"` // 电子邮箱
+		CustomerName             string `json:"customerName" validate:"required"`
+		CustomerType             string `json:"customerType" validate:"required"`
+		IdType                   string `json:"idType" validate:"required"`
+		IdNumber                 string `json:"idNumber" validate:"required"`
+		RiskLevel                string `json:"riskLevel" validate:"required"`
+		RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"`
+		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"`
+		ContactPhone             string `json:"contactPhone,omitempty"`
+		Email                    string `json:"email,omitempty"`
 	}
 	CreateCustomerResp {
-		CustomerId string `json:"customerId"` // 客户ID
+		CustomerId string `json:"customerId"`
 	}
-	// 更新客户请求
 	UpdateCustomerReq {
-		CustomerId               string `json:"customerId" validate:"required"` // 客户ID
-		CustomerName             string `json:"customerName,omitempty"` // 客户姓名/企业名称
-		RiskLevel                string `json:"riskLevel,omitempty"` // 风险等级
-		RiskEvaluationTime       string `json:"riskEvaluationTime,omitempty"` // 风险测评时间
-		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime,omitempty"` // 风险测评过期时间
-		ContactPhone             string `json:"contactPhone,omitempty"` // 联系电话
-		Email                    string `json:"email,omitempty"` // 电子邮箱
+		CustomerId               string `json:"customerId" validate:"required"`
+		CustomerName             string `json:"customerName,omitempty"`
+		RiskLevel                string `json:"riskLevel,omitempty"`
+		RiskEvaluationTime       string `json:"riskEvaluationTime,omitempty"`
+		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime,omitempty"`
+		ContactPhone             string `json:"contactPhone,omitempty"`
+		Email                    string `json:"email,omitempty"`
 	}
 	UpdateCustomerResp {
-		Success bool `json:"success"` // 是否成功
+		Success bool `json:"success"`
 	}
-	// 查询客户请求
 	GetCustomerReq {
-		CustomerId string `path:"customerId"` // 客户ID
+		CustomerId string `path:"customerId"`
 	}
 	GetCustomerResp {
-		Customer CustomerInfo `json:"customer"` // 客户信息
+		Customer CustomerInfo `json:"customer"`
 	}
-	// 客户列表请求
 	ListCustomerReq {
-		Page         int    `form:"page,default=1"` // 页码
-		PageSize     int    `form:"pageSize,default=10"` // 每页数量
-		CustomerName string `form:"customerName,optional"` // 客户名称(模糊查询)
-		CustomerType string `form:"customerType,optional"` // 客户类型
-		RiskLevel    string `form:"riskLevel,optional"` // 风险等级
-		IdNumber     string `form:"idNumber,optional"` // 证件号码(精确查询)
+		Page         int    `form:"page,default=1"`
+		PageSize     int    `form:"pageSize,default=10"`
+		CustomerName string `form:"customerName,optional"`
+		CustomerType string `form:"customerType,optional"`
+		RiskLevel    string `form:"riskLevel,optional"`
+		IdNumber     string `form:"idNumber,optional"`
 	}
 	ListCustomerResp {
-		Total    int64          `json:"total"` // 总数
-		List     []CustomerInfo `json:"list"` // 客户列表
-		Page     int            `json:"page"` // 当前页
-		PageSize int            `json:"pageSize"` // 每页数量
+		Total    int64          `json:"total"`
+		List     []CustomerInfo `json:"list"`
+		Page     int            `json:"page"`
+		PageSize int            `json:"pageSize"`
 	}
-	// 风险测评更新请求
 	UpdateRiskEvaluationReq {
-		CustomerId               string `json:"customerId" validate:"required"` // 客户ID
-		RiskLevel                string `json:"riskLevel" validate:"required"` // 风险等级
-		RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"` // 风险测评时间
-		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"` // 风险测评过期时间
+		CustomerId               string `json:"customerId" validate:"required"`
+		RiskLevel                string `json:"riskLevel" validate:"required"`
+		RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"`
+		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"`
 	}
 	UpdateRiskEvaluationResp {
-		Success bool `json:"success"` // 是否成功
+		Success bool `json:"success"`
+	}
+	DeleteCustomerReq {
+		CustomerId string `path:"customerId" validate:"required"`
+	}
+	DeleteCustomerResp {
+		Success bool `json:"success"`
 	}
 )
 
-// ==================== 客户银行卡管理 ====================
+// ==================== 2. 客户银行卡管理 Types ====================
 type (
-	// 银行卡信息
 	BankCardInfo {
-		CardId         int64  `json:"cardId"` // 银行卡ID
-		CustomerId     string `json:"customerId"` // 客户ID
-		BankCardNumber string `json:"bankCardNumber"` // 银行卡号(部分脱敏)
-		BankName       string `json:"bankName"` // 开户行名称
-		CardBalance    string `json:"cardBalance"` // 银行卡余额
-		IsVirtual      int    `json:"isVirtual"` // 是否虚拟银行卡: 1-是, 0-否
-		BindStatus     string `json:"bindStatus"` // 绑定状态
-		BindTime       string `json:"bindTime"` // 绑定时间
-		UnbindTime     string `json:"unbindTime,omitempty"` // 解绑时间
-		CreateTime     string `json:"createTime"` // 创建时间
-		UpdateTime     string `json:"updateTime"` // 更新时间
+		CardId         int64  `json:"cardId"`
+		CustomerId     string `json:"customerId"`
+		BankCardNumber string `json:"bankCardNumber"`
+		BankName       string `json:"bankName"`
+		CardBalance    string `json:"cardBalance"`
+		IsVirtual      int    `json:"isVirtual"`
+		BindStatus     string `json:"bindStatus"`
+		BindTime       string `json:"bindTime"`
+		UnbindTime     string `json:"unbindTime,omitempty"`
+		CreateTime     string `json:"createTime"`
+		UpdateTime     string `json:"updateTime"`
 	}
-	// 绑定银行卡请求
 	BindBankCardReq {
-		CustomerId     string `json:"customerId" validate:"required"` // 客户ID
-		BankCardNumber string `json:"bankCardNumber" validate:"required"` // 银行卡号
-		BankName       string `json:"bankName" validate:"required"` // 开户行名称
-		IsVirtual      int    `json:"isVirtual"` // 是否虚拟卡: 1-是, 0-否
-		CardBalance    string `json:"cardBalance,omitempty"` // 初始余额(虚拟卡需要)
+		CustomerId     string `json:"customerId" validate:"required"`
+		BankCardNumber string `json:"bankCardNumber" validate:"required"`
+		BankName       string `json:"bankName" validate:"required"`
+		IsVirtual      int    `json:"isVirtual"`
+		CardBalance    string `json:"cardBalance,omitempty"`
 	}
 	BindBankCardResp {
-		CardId int64 `json:"cardId"` // 银行卡ID
+		CardId int64 `json:"cardId"`
 	}
-	// 解绑银行卡请求
 	UnbindBankCardReq {
-		CardId int64 `json:"cardId" validate:"required"` // 银行卡ID
+		CardId int64 `json:"cardId" validate:"required"`
 	}
 	UnbindBankCardResp {
-		Success bool `json:"success"` // 是否成功
+		Success bool `json:"success"`
 	}
-	// 查询银行卡请求
 	GetBankCardReq {
-		CardId int64 `path:"cardId"` // 银行卡ID
+		CardId int64 `path:"cardId"`
 	}
 	GetBankCardResp {
-		BankCard BankCardInfo `json:"bankCard"` // 银行卡信息
+		BankCard BankCardInfo `json:"bankCard"`
 	}
-	// 客户银行卡列表请求
 	ListBankCardReq {
-		CustomerId string `form:"customerId" validate:"required"` // 客户ID
-		BindStatus string `form:"bindStatus,optional"` // 绑定状态
-		IsVirtual  int    `form:"isVirtual,optional"` // 是否虚拟卡: -1-全部, 0-真实卡, 1-虚拟卡
+		CustomerId string `form:"customerId" validate:"required"`
+		BindStatus string `form:"bindStatus,optional"`
+		IsVirtual  int    `form:"isVirtual,optional"`
 	}
 	ListBankCardResp {
-		Total int64          `json:"total"` // 总数
-		List  []BankCardInfo `json:"list"` // 银行卡列表
+		Total int64          `json:"total"`
+		List  []BankCardInfo `json:"list"`
 	}
-	// 更新银行卡余额请求
 	UpdateCardBalanceReq {
-		CardId      int64  `json:"cardId" validate:"required"` // 银行卡ID
-		Amount      string `json:"amount" validate:"required"` // 变动金额(正数为增加,负数为减少)
-		OperateType string `json:"operateType" validate:"required"` // 操作类型: recharge-充值, consume-消费
-		Remark      string `json:"remark,omitempty"` // 备注
+		CardId      int64  `json:"cardId" validate:"required"`
+		Amount      string `json:"amount" validate:"required"`
+		OperateType string `json:"operateType" validate:"required"`
+		Remark      string `json:"remark,omitempty"`
 	}
 	UpdateCardBalanceResp {
-		NewBalance string `json:"newBalance"` // 更新后余额
+		NewBalance string `json:"newBalance"`
 	}
 )
 
-// ==================== 客户行为分析 ====================
+// ==================== 3. 客户行为分析 Types ====================
 type (
-	// 客户行为信息
 	CustomerBehavior {
-		BehaviorId       int64  `json:"behaviorId"` // 行为ID
-		CustomerId       string `json:"customerId"` // 客户ID
-		BehaviorType     string `json:"behaviorType"` // 行为类型
-		BehaviorTime     string `json:"behaviorTime"` // 行为时间
-		RelatedProductId string `json:"relatedProductId,omitempty"` // 关联产品ID
-		BehaviorDetail   string `json:"behaviorDetail,omitempty"` // 行为详情(JSON)
-		IpAddress        string `json:"ipAddress,omitempty"` // IP地址
-		DeviceInfo       string `json:"deviceInfo,omitempty"` // 设备信息
-		CreateTime       string `json:"createTime"` // 创建时间
+		BehaviorId       int64  `json:"behaviorId"`
+		CustomerId       string `json:"customerId"`
+		BehaviorType     string `json:"behaviorType"`
+		BehaviorTime     string `json:"behaviorTime"`
+		RelatedProductId string `json:"relatedProductId,omitempty"`
+		BehaviorDetail   string `json:"behaviorDetail,omitempty"`
+		IpAddress        string `json:"ipAddress,omitempty"`
+		DeviceInfo       string `json:"deviceInfo,omitempty"`
+		CreateTime       string `json:"createTime"`
 	}
-	// 记录客户行为请求
 	RecordBehaviorReq {
-		CustomerId       string `json:"customerId" validate:"required"` // 客户ID
-		BehaviorType     string `json:"behaviorType" validate:"required"` // 行为类型
-		RelatedProductId string `json:"relatedProductId,omitempty"` // 关联产品ID
-		BehaviorDetail   string `json:"behaviorDetail,omitempty"` // 行为详情(JSON字符串)
-		IpAddress        string `json:"ipAddress,omitempty"` // IP地址
-		DeviceInfo       string `json:"deviceInfo,omitempty"` // 设备信息
+		CustomerId       string `json:"customerId" validate:"required"`
+		BehaviorType     string `json:"behaviorType" validate:"required"`
+		RelatedProductId string `json:"relatedProductId,omitempty"`
+		BehaviorDetail   string `json:"behaviorDetail,omitempty"`
+		IpAddress        string `json:"ipAddress,omitempty"`
+		DeviceInfo       string `json:"deviceInfo,omitempty"`
 	}
 	RecordBehaviorResp {
-		BehaviorId int64 `json:"behaviorId"` // 行为ID
+		BehaviorId int64 `json:"behaviorId"`
 	}
-	// 查询客户行为列表请求
 	ListBehaviorReq {
-		CustomerId       string `form:"customerId" validate:"required"` // 客户ID
-		BehaviorType     string `form:"behaviorType,optional"` // 行为类型
-		RelatedProductId string `form:"relatedProductId,optional"` // 关联产品ID
-		StartTime        string `form:"startTime,optional"` // 开始时间
-		EndTime          string `form:"endTime,optional"` // 结束时间
-		Page             int    `form:"page,default=1"` // 页码
-		PageSize         int    `form:"pageSize,default=20"` // 每页数量
+		CustomerId       string `form:"customerId" validate:"required"`
+		BehaviorType     string `form:"behaviorType,optional"`
+		RelatedProductId string `form:"relatedProductId,optional"`
+		StartTime        string `form:"startTime,optional"`
+		EndTime          string `form:"endTime,optional"`
+		Page             int    `form:"page,default=1"`
+		PageSize         int    `form:"pageSize,default=20"`
 	}
 	ListBehaviorResp {
-		Total    int64              `json:"total"` // 总数
-		List     []CustomerBehavior `json:"list"` // 行为列表
-		Page     int                `json:"page"` // 当前页
-		PageSize int                `json:"pageSize"` // 每页数量
+		Total    int64              `json:"total"`
+		List     []CustomerBehavior `json:"list"`
+		Page     int                `json:"page"`
+		PageSize int                `json:"pageSize"`
 	}
-	// 客户行为统计请求
 	BehaviorStatisticsReq {
-		CustomerId string `form:"customerId" validate:"required"` // 客户ID
-		StartTime  string `form:"startTime,optional"` // 开始时间
-		EndTime    string `form:"endTime,optional"` // 结束时间
+		CustomerId string `form:"customerId" validate:"required"`
+		StartTime  string `form:"startTime,optional"`
+		EndTime    string `form:"endTime,optional"`
 	}
-	// 行为类型统计
 	BehaviorTypeCount {
-		BehaviorType string `json:"behaviorType"` // 行为类型
-		Count        int64  `json:"count"` // 次数
+		BehaviorType string `json:"behaviorType"`
+		Count        int64  `json:"count"`
 	}
 	BehaviorStatisticsResp {
-		TotalCount     int64               `json:"totalCount"` // 总行为次数
-		TypeStatistics []BehaviorTypeCount `json:"typeStatistics"` // 各类型统计
+		TotalCount     int64               `json:"totalCount"`
+		TypeStatistics []BehaviorTypeCount `json:"typeStatistics"`
 	}
 )
 
 // ==================== API路由定义 ====================
+// --- 组1: Customer ---
 @server (
-	prefix: /api/customer
-	group:  customer
-	jwt:    Auth
+	prefix:     /api/customer
+	group:      customer
+	jwt:        Auth
+	middleware: JwtAuthMiddleware
 )
-service customer {
+service customer { // 服务名统一为 customer
 	@doc "创建客户"
 	@handler CreateCustomer
 	post /info (CreateCustomerReq) returns (Response)
@@ -241,14 +232,20 @@ service customer {
 	@doc "更新风险测评"
 	@handler UpdateRiskEvaluation
 	put /risk-evaluation (UpdateRiskEvaluationReq) returns (Response)
+
+	@doc "逻辑删除客户信息"
+	@handler DeleteCustomer
+	delete /info/:customerId (DeleteCustomerReq) returns (Response)
 }
 
+// --- 组2: BankCard ---
 @server (
-	prefix: /api/bank-card
-	group:  bankcard
-	jwt:    Auth
+	prefix:     /api/bank-card
+	group:      bankcard
+	jwt:        Auth
+	middleware: JwtAuthMiddleware
 )
-service customer {
+service customer { // 服务名必须保持一致！
 	@doc "绑定银行卡"
 	@handler BindBankCard
 	post /bind (BindBankCardReq) returns (Response)
@@ -270,12 +267,14 @@ service customer {
 	put /balance (UpdateCardBalanceReq) returns (Response)
 }
 
+// --- 组3: Behavior ---
 @server (
-	prefix: /api/behavior
-	group:  behavior
-	jwt:    Auth
+	prefix:     /api/behavior
+	group:      behavior
+	jwt:        Auth
+	middleware: JwtAuthMiddleware
 )
-service customer {
+service customer { // 服务名必须保持一致！
 	@doc "记录客户行为"
 	@handler RecordBehavior
 	post /record (RecordBehaviorReq) returns (Response)

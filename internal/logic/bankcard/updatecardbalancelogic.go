@@ -5,9 +5,11 @@ package bankcard
 
 import (
 	"context"
+	"strconv"
 
-	"WMSS/customer/api/internal/svc"
-	"WMSS/customer/api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
+	"github.com/Nozomi9967/wmss-customer-api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +30,45 @@ func NewUpdateCardBalanceLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *UpdateCardBalanceLogic) UpdateCardBalance(req *types.UpdateCardBalanceReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	var bankCard *model.CustomerBankCard
+	bankCard, err = l.svcCtx.CustomerBankCardModel.FindOne(l.ctx, req.CardId)
+	if err != nil {
+		l.Logger.Errorf("更新银行卡余额失败: %v", err)
+		return &types.Response{
+			Code: 400,
+			Msg:  "更新银行卡余额失败",
+		}, nil
+	}
+	if req.Amount != "" {
+		var amount float64
+		amount, err = strconv.ParseFloat(req.Amount, 64)
+		if err != nil {
+			l.Logger.Errorf("更新银行卡余额失败: %v", err)
+			return &types.Response{
+				Code: 400,
+				Msg:  "更新银行卡余额失败",
+			}, nil
+		}
 
-	return
+		if req.OperateType == "consume" {
+			bankCard.CardBalance -= amount
+		} else {
+			bankCard.CardBalance += amount
+		}
+
+	}
+
+	err = l.svcCtx.CustomerBankCardModel.Update(l.ctx, bankCard)
+	if err != nil {
+		l.Logger.Errorf("更新银行卡余额失败: %v", err)
+		return &types.Response{
+			Code: 400,
+			Msg:  "更新银行卡余额失败",
+		}, nil
+	}
+
+	return &types.Response{
+		Code: 200,
+		Msg:  "更新银行卡余额成功",
+	}, nil
 }

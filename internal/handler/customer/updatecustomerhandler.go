@@ -6,9 +6,9 @@ package customer
 import (
 	"net/http"
 
-	"WMSS/customer/api/internal/logic/customer"
-	"WMSS/customer/api/internal/svc"
-	"WMSS/customer/api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/internal/logic/customer"
+	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
+	"github.com/Nozomi9967/wmss-customer-api/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

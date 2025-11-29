@@ -12,17 +12,17 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// 查询客户列表
-func ListCustomerHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 逻辑删除客户信息
+func DeleteCustomerHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.ListCustomerReq
+		var req types.DeleteCustomerReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := customer.NewListCustomerLogic(r.Context(), svcCtx)
-		resp, err := l.ListCustomer(&req)
+		l := customer.NewDeleteCustomerLogic(r.Context(), svcCtx)
+		resp, err := l.DeleteCustomer(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

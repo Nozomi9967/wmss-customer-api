@@ -6,9 +6,9 @@ package behavior
 import (
 	"net/http"
 
-	"WMSS/customer/api/internal/logic/behavior"
-	"WMSS/customer/api/internal/svc"
-	"WMSS/customer/api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/internal/logic/behavior"
+	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
+	"github.com/Nozomi9967/wmss-customer-api/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

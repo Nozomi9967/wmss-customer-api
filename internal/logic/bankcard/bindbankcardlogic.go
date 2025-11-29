@@ -5,10 +5,12 @@ package bankcard
 
 import (
 	"context"
+	"database/sql"
+	"time"
 
-	"WMSS/customer/api/internal/svc"
-	"WMSS/customer/api/internal/types"
-
+	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
+	"github.com/Nozomi9967/wmss-customer-api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/model"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -28,7 +30,32 @@ func NewBindBankCardLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Bind
 }
 
 func (l *BindBankCardLogic) BindBankCard(req *types.BindBankCardReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
 
-	return
+	var bankCard *model.CustomerBankCard
+	now := time.Now()
+	bankCard = &model.CustomerBankCard{
+		CustomerId:     req.CustomerId,
+		BankCardNumber: req.BankCardNumber,
+		BankName:       req.BankName,
+		CardBalance:    0,
+		IsVirtual:      int64(req.IsVirtual),
+		BindStatus:     "正常",
+		BindTime:       now,
+		UnbindTime:     sql.NullTime{},
+		CreateTime:     now,
+		UpdateTime:     now,
+		DeletedAt:      sql.NullTime{},
+	}
+	_, err = l.svcCtx.CustomerBankCardModel.Insert(l.ctx, bankCard)
+	if err != nil {
+		l.Logger.Errorf("绑定银行卡失败: %v", err)
+		return &types.Response{
+			Code: 400,
+			Msg:  "绑定银行卡失败",
+		}, nil
+	}
+	return &types.Response{
+		Code: 200,
+		Msg:  "绑定银行卡成功",
+	}, nil
 }

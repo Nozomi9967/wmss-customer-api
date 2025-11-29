@@ -6,8 +6,8 @@ package behavior
 import (
 	"context"
 
-	"WMSS/customer/api/internal/svc"
-	"WMSS/customer/api/internal/types"
+	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
+	"github.com/Nozomi9967/wmss-customer-api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

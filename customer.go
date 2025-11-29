@@ -1,17 +1,16 @@
-// Code scaffolded by goctl. Safe to edit.
-// goctl 1.9.2
-
 package main
 
 import (
 	"flag"
 	"fmt"
+	"net/http"
 
-	"WMSS/customer/api/internal/config"
-	"WMSS/customer/api/internal/handler"
-	"WMSS/customer/api/internal/svc"
-
+	"github.com/Nozomi9967/wmss-customer-api/internal/config"
+	"github.com/Nozomi9967/wmss-customer-api/internal/handler"
+	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
+	"github.com/Nozomi9967/wmss-customer-api/middleware"
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
 )
 
@@ -23,12 +22,23 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
+	//middleware.InitSimpleLogger()
+
+	// 关闭统计日志（去掉 p2c 那些 stat 日志）
+	logx.DisableStat()
+
+	server := rest.MustNewServer(c.Rest,
+		rest.WithNotAllowedHandler(http.NotFoundHandler()),
+	)
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
+
+	jwtMiddleware := middleware.NewJwtAuthMiddleware(ctx)
+	ctx.JwtAuthMiddleware = jwtMiddleware.Handle
+
 	handler.RegisterHandlers(server, ctx)
 
-	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
+	fmt.Printf("Starting server at %s:%d...\n", c.Rest.Host, c.Rest.Port)
 	server.Start()
 }
