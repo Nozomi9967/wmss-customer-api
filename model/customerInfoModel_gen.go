@@ -43,8 +43,8 @@ type (
 		IdType                   string         `db:"id_type"`                     // 证件类型，如“身份证”“营业执照”
 		IdNumber                 string         `db:"id_number"`                   // 证件号码，加密存储
 		RiskLevel                string         `db:"risk_level"`                  // 客户风险等级，如“R1”“R2”“R3”“R4”“R5”
-		RiskEvaluationTime       time.Time      `db:"risk_evaluation_time"`        // 风险测评时间
-		RiskEvaluationExpireTime time.Time      `db:"risk_evaluation_expire_time"` // 风险测评过期时间
+		RiskEvaluationTime       sql.NullTime   `db:"risk_evaluation_time"`        // 风险测评时间
+		RiskEvaluationExpireTime sql.NullTime   `db:"risk_evaluation_expire_time"` // 风险测评过期时间
 		ContactPhone             sql.NullString `db:"contact_phone"`               // 联系电话，加密存储
 		Email                    sql.NullString `db:"email"`                       // 电子邮箱
 		CreateTime               time.Time      `db:"create_time"`                 // 客户创建时间（开户时间）

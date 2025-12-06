@@ -118,7 +118,10 @@ func (l *UpdateCustomerLogic) UpdateCustomer(req *types.UpdateCustomerReq) (resp
 				Msg:  "风险测评时间格式错误，应为 YYYY-MM-DD HH:mm:ss",
 			}, nil
 		}
-		customerInfo.RiskEvaluationTime = t
+		customerInfo.RiskEvaluationTime = sql.NullTime{
+			Time:  t,
+			Valid: true,
+		}
 		hasUpdated = true
 	}
 
@@ -132,7 +135,10 @@ func (l *UpdateCustomerLogic) UpdateCustomer(req *types.UpdateCustomerReq) (resp
 				Msg:  "风险测评过期时间格式错误，应为 YYYY-MM-DD HH:mm:ss",
 			}, nil
 		}
-		customerInfo.RiskEvaluationExpireTime = t
+		customerInfo.RiskEvaluationExpireTime = sql.NullTime{
+			Time:  t,
+			Valid: true,
+		}
 		hasUpdated = true
 	}
 

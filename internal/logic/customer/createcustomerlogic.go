@@ -35,7 +35,7 @@ func NewCreateCustomerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cr
 }
 
 func (l *CreateCustomerLogic) CreateCustomer(req *types.CreateCustomerReq) (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	// 1. 权限校验
 	userId, _ := l.ctx.Value("user_id").(string)
 	requestUserInfo := &userRpc.GetUserRequest{
 		UserId: userId,
@@ -57,39 +57,60 @@ func (l *CreateCustomerLogic) CreateCustomer(req *types.CreateCustomerReq) (resp
 		}, nil
 	}
 
-	var customer *model.CustomerInfo
+	// 2. 处理可选的时间字段
+	var evalTimeSql sql.NullTime
+	var expireTimeSql sql.NullTime
+	const timeLayout = "2006-01-02 15:04:05"
+
+	// 处理 RiskEvaluationTime：检查字符串是否为空
+	if req.RiskEvaluationTime != "" {
+		t, err := time.Parse(timeLayout, req.RiskEvaluationTime)
+		if err != nil {
+			return &types.Response{
+				Code: 400,
+				Msg:  "风险测评时间格式错误，请使用 YYYY-MM-DD HH:MM:SS 格式（如 2025-11-28 14:30:00）",
+			}, nil
+		}
+		evalTimeSql = sql.NullTime{Time: t, Valid: true}
+	}
+	// 如果 req.RiskEvaluationTime 为空字符串，则 evalTimeSql 保持 Valid: false (NULL)
+
+	// 处理 RiskEvaluationExpireTime：检查字符串是否为空
+	if req.RiskEvaluationExpireTime != "" {
+		t, err := time.Parse(timeLayout, req.RiskEvaluationExpireTime)
+		if err != nil {
+			return &types.Response{
+				Code: 400,
+				Msg:  "风险测评过期时间格式错误，请使用 YYYY-MM-DD HH:MM:SS 格式（如 2025-11-28 14:30:00）",
+			}, nil
+		}
+		expireTimeSql = sql.NullTime{Time: t, Valid: true}
+	}
+	// 如果 req.RiskEvaluationExpireTime 为空字符串，则 expireTimeSql 保持 Valid: false (NULL)
+
+	// 3. 构建客户信息模型
 	rawId := uuid.New().String()
 	customerId := strings.ReplaceAll(rawId, "-", "")
-	evalTime, err := time.Parse("2006-01-02 15:04:05", req.RiskEvaluationTime)
-	if err != nil {
-		// 解析失败：返回前端“时间格式错误”
-		return &types.Response{
-			Code: 400,
-			Msg:  "风险测评时间格式错误，请使用 YYYY-MM-DD HH:MM:SS 格式（如 2025-11-28 14:30:00）",
-		}, nil
+
+	customer := &model.CustomerInfo{
+		CustomerId:   customerId,
+		CustomerName: req.CustomerName,
+		CustomerType: req.CustomerType,
+		IdType:       req.IdType,
+		IdNumber:     req.IdNumber,
+		RiskLevel:    req.RiskLevel,
+		// 使用已处理的 sql.NullTime
+		RiskEvaluationTime:       evalTimeSql,
+		RiskEvaluationExpireTime: expireTimeSql,
+		// ContactPhone 和 Email 也应使用 sql.NullString 机制处理空字符串
+		ContactPhone: sql.NullString{String: req.ContactPhone, Valid: req.ContactPhone != ""},
+		Email:        sql.NullString{String: req.Email, Valid: req.Email != ""},
+		CreateTime:   time.Now(),
+		UpdateTime:   time.Now(),
+		DeletedAt:    sql.NullTime{},
 	}
-	expireTime, err := time.Parse("2006-01-02 15:04:05", req.RiskEvaluationExpireTime)
-	if err != nil {
-		return &types.Response{
-			Code: 400,
-			Msg:  "风险测评过期时间格式错误，请使用 YYYY-MM-DD HH:MM:SS 格式（如 2025-11-28 14:30:00）",
-		}, nil
-	}
-	customer = &model.CustomerInfo{
-		CustomerId:               customerId,
-		CustomerName:             req.CustomerName,
-		CustomerType:             req.CustomerType,
-		IdType:                   req.IdType,
-		IdNumber:                 req.IdNumber,
-		RiskLevel:                req.RiskLevel,
-		RiskEvaluationTime:       evalTime,
-		RiskEvaluationExpireTime: expireTime,
-		ContactPhone:             sql.NullString{String: req.ContactPhone, Valid: true},
-		Email:                    sql.NullString{String: req.Email, Valid: true},
-		CreateTime:               time.Now(),
-		UpdateTime:               time.Now(),
-		DeletedAt:                sql.NullTime{},
-	}
+
+	// 4. 插入数据库
 	_, err = l.svcCtx.CustomerInfoModel.Insert(l.ctx, customer)
 	if err != nil {
 		l.Logger.Errorf("新增客户失败：%v", err)

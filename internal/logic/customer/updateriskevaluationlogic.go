@@ -5,6 +5,7 @@ package customer
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"time"
 
@@ -108,13 +109,19 @@ func (l *UpdateRiskEvaluationLogic) UpdateRiskEvaluation(req *types.UpdateRiskEv
 		isUpdated = true
 	}
 
-	if !customerInfo.RiskEvaluationTime.Equal(evalTime) {
-		customerInfo.RiskEvaluationTime = evalTime
+	if !customerInfo.RiskEvaluationTime.Time.Equal(evalTime) {
+		customerInfo.RiskEvaluationTime = sql.NullTime{
+			Time:  evalTime,
+			Valid: true,
+		}
 		isUpdated = true
 	}
 
-	if !customerInfo.RiskEvaluationExpireTime.Equal(expireTime) {
-		customerInfo.RiskEvaluationExpireTime = expireTime
+	if !customerInfo.RiskEvaluationExpireTime.Time.Equal(expireTime) {
+		customerInfo.RiskEvaluationExpireTime = sql.NullTime{
+			Time:  expireTime,
+			Valid: true,
+		}
 		isUpdated = true
 	}
 

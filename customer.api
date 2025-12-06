@@ -36,8 +36,8 @@ type (
 		IdType                   string `json:"idType" validate:"required"`
 		IdNumber                 string `json:"idNumber" validate:"required"`
 		RiskLevel                string `json:"riskLevel" validate:"required"`
-		RiskEvaluationTime       string `json:"riskEvaluationTime" validate:"required"`
-		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime" validate:"required"`
+		RiskEvaluationTime       string `json:"riskEvaluationTime,optional" validate:"omitempty"`
+		RiskEvaluationExpireTime string `json:"riskEvaluationExpireTime,optional" validate:"omitempty"`
 		ContactPhone             string `json:"contactPhone,omitempty"`
 		Email                    string `json:"email,omitempty"`
 	}
