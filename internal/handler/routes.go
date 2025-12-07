@@ -123,6 +123,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/risk-evaluation",
 					Handler: customer.UpdateRiskEvaluationHandler(serverCtx),
 				},
+				{
+					// 申购风险测评
+					Method:  http.MethodPost,
+					Path:    "/risk/validate",
+					Handler: customer.RiskValidateHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

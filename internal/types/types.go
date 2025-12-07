@@ -175,6 +175,17 @@ type Response struct {
 	Data interface{} `json:"data"`
 }
 
+type RiskValidityReq struct {
+	CustomerId string `json:"customerId"`
+}
+
+type RiskValidityResp struct {
+	IsValid    string `json:"isValid"`
+	Reason     string `json:"reason"`
+	RiskLevel  string `json:"riskLevel"`
+	ExpireTime string `json:"expireTime"`
+}
+
 type UnbindBankCardReq struct {
 	CardId int64 `json:"cardId" validate:"required"`
 }

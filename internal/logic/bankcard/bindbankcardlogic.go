@@ -6,6 +6,7 @@ package bankcard
 import (
 	"context"
 	"database/sql"
+	"strconv"
 	"time"
 
 	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
@@ -32,12 +33,23 @@ func NewBindBankCardLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Bind
 func (l *BindBankCardLogic) BindBankCard(req *types.BindBankCardReq) (resp *types.Response, err error) {
 
 	var bankCard *model.CustomerBankCard
+	var balance float64
+	if req.CardBalance != "" {
+		balance, err = strconv.ParseFloat(req.CardBalance, 64)
+		if err != nil {
+			l.Logger.Errorf("服务器内部错误：: %v", err)
+			return &types.Response{
+				Code: 500,
+				Msg:  "服务器内部错误",
+			}, nil
+		}
+	}
 	now := time.Now()
 	bankCard = &model.CustomerBankCard{
 		CustomerId:     req.CustomerId,
 		BankCardNumber: req.BankCardNumber,
 		BankName:       req.BankName,
-		CardBalance:    0,
+		CardBalance:    balance,
 		IsVirtual:      int64(req.IsVirtual),
 		BindStatus:     "正常",
 		BindTime:       now,
