@@ -123,5 +123,8 @@ func (l *CreateCustomerLogic) CreateCustomer(req *types.CreateCustomerReq) (resp
 	return &types.Response{
 		Code: 200,
 		Msg:  "新建成功",
+		Data: &types.CreateCustomerResp{
+			CustomerId: customerId,
+		},
 	}, nil
 }
