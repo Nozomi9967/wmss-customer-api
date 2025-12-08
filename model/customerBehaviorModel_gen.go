@@ -76,6 +76,8 @@ func (m *defaultCustomerBehaviorModel) FindOne(ctx context.Context, behaviorId i
 	}
 }
 
+
+
 func (m *defaultCustomerBehaviorModel) Insert(ctx context.Context, data *CustomerBehavior) (sql.Result, error) {
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?)", m.table, customerBehaviorRowsExpectAutoSet)
 	ret, err := m.conn.ExecCtx(ctx, query, data.CustomerId, data.BehaviorType, data.BehaviorTime, data.RelatedProductId, data.BehaviorDetail, data.IpAddress, data.DeviceInfo)

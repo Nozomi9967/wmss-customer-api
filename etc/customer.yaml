@@ -13,6 +13,11 @@ UserRpc:
     - 127.0.0.1:9090  # 对应 user.rpc 的监听地址（必须一致）
   Timeout: 3000     # 调用 RPC 的超时时间（建议和 API 超时一致）
 
+CustomerRpc:
+  Endpoints:
+    - 127.0.0.1:9091
+  Timeout: 3000
+
 Auth:
   AccessSecret: wmss1234
   AccessExpire: 8640000000  # 24小时

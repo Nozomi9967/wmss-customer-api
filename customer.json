@@ -566,6 +566,38 @@
           }
         ]
       }
+    },
+    "/api/customer/risk/validate": {
+      "post": {
+        "summary": "申购风险测评",
+        "operationId": "RiskValidate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RiskValidityReq"
+            }
+          }
+        ],
+        "tags": [
+          "customer"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -755,9 +787,7 @@
         "customerType",
         "idType",
         "idNumber",
-        "riskLevel",
-        "riskEvaluationTime",
-        "riskEvaluationExpireTime"
+        "riskLevel"
       ]
     },
     "CreateCustomerResp": {
@@ -1143,6 +1173,42 @@
         "code",
         "msg",
         "data"
+      ]
+    },
+    "RiskValidityReq": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        }
+      },
+      "title": "RiskValidityReq",
+      "required": [
+        "customerId"
+      ]
+    },
+    "RiskValidityResp": {
+      "type": "object",
+      "properties": {
+        "isValid": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "riskLevel": {
+          "type": "string"
+        },
+        "expireTime": {
+          "type": "string"
+        }
+      },
+      "title": "RiskValidityResp",
+      "required": [
+        "isValid",
+        "reason",
+        "riskLevel",
+        "expireTime"
       ]
     },
     "UnbindBankCardReq": {

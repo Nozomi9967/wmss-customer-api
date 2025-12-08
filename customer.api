@@ -30,6 +30,15 @@ type (
 		CreateTime               string `json:"createTime"`
 		UpdateTime               string `json:"updateTime"`
 	}
+	RiskValidityResp {
+		IsValid    string `json:"isValid"`
+		Reason     string `json:"reason"`
+		RiskLevel  string `json:"riskLevel"`
+		ExpireTime string `json:"expireTime"`
+	}
+	RiskValidityReq {
+		CustomerId string `json:"customerId"`
+	}
 	CreateCustomerReq {
 		CustomerName             string `json:"customerName" validate:"required"`
 		CustomerType             string `json:"customerType" validate:"required"`
@@ -236,6 +245,10 @@ service customer { // 服务名统一为 customer
 	@doc "逻辑删除客户信息"
 	@handler DeleteCustomer
 	delete /info/:customerId (DeleteCustomerReq) returns (Response)
+
+	@doc "申购风险测评"
+	@handler RiskValidate
+	post /risk/validate (RiskValidityReq) returns (Response)
 }
 
 // --- 组2: BankCard ---

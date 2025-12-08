@@ -67,7 +67,7 @@ func (m *defaultCustomerBankCardModel) Delete(ctx context.Context, cardId int64)
 }
 
 func (m *defaultCustomerBankCardModel) FindOne(ctx context.Context, cardId int64) (*CustomerBankCard, error) {
-	query := fmt.Sprintf("select %s from %s where `card_id` = ? limit 1", customerBankCardRows, m.table)
+	query := fmt.Sprintf("select %s from %s where `card_id` = ? limit 1 and `deleted_at` is null", customerBankCardRows, m.table)
 	var resp CustomerBankCard
 	err := m.conn.QueryRowCtx(ctx, &resp, query, cardId)
 	switch err {

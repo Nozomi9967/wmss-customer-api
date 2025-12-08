@@ -11,8 +11,9 @@ type Config struct {
 		AccessSecret string `json:"AccessSecret"`
 		AccessExpire int64  `json:"AccessExpire"`
 	}
-	UserRpc zrpc.RpcClientConf `json:"UserRpc"`
-	Mysql   struct {
+	UserRpc     zrpc.RpcClientConf `json:"UserRpc"`
+	CustomerRpc zrpc.RpcClientConf `json:"CustomerRpc"`
+	Mysql       struct {
 		DataSource string `json:"DataSource"`
 	}
 	// CacheRedis cache.CacheConf `json:"CacheRedis"`

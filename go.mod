@@ -3,6 +3,7 @@ module github.com/Nozomi9967/wmss-customer-api
 go 1.24.9
 
 require (
+	github.com/Nozomi9967/wmss-customer-rpc v0.0.1
 	github.com/Nozomi9967/wmss-user-api v0.0.4
 	github.com/Nozomi9967/wmss-user-rpc v0.0.0-20251123054400-235c1e099a7c
 	github.com/google/uuid v1.6.0

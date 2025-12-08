@@ -12,6 +12,7 @@ import (
 	"github.com/Nozomi9967/wmss-customer-api/internal/svc"
 	"github.com/Nozomi9967/wmss-customer-api/internal/types"
 	"github.com/Nozomi9967/wmss-customer-api/model"
+	customerRpc "github.com/Nozomi9967/wmss-customer-rpc/pb"
 	"github.com/Nozomi9967/wmss-user-api/common"
 	userRpc "github.com/Nozomi9967/wmss-user-rpc/pb"
 	"github.com/google/uuid"
@@ -119,6 +120,29 @@ func (l *CreateCustomerLogic) CreateCustomer(req *types.CreateCustomerReq) (resp
 			Msg:  "新增失败",
 		}, nil
 	}
+
+	//behaviorId:=utils.GenerateUUID32()
+	now := time.Now()
+	reqInfo := &customerRpc.AddBehaviorReq{
+		//BehaviorId:      0,
+		CustomerId:       customerId,
+		BehaviorType:     "新增客户",
+		BehaviorTime:     now.Unix(),
+		RelatedProductId: "",
+		BehaviorDetail:   "",
+		IpAddress:        "",
+		DeviceInfo:       "",
+	}
+	var behaviorResp *customerRpc.AddBehaviorResp
+	behaviorResp, err = l.svcCtx.CustomerRpcClient.AddBehavior(l.ctx, reqInfo)
+	if err != nil {
+		return &types.Response{
+			Code: 400,
+			Msg:  "行为上报失败",
+		}, nil
+	}
+	l.Logger.Info("行为上报成功：")
+	l.Logger.Info(behaviorResp)
 
 	return &types.Response{
 		Code: 200,
